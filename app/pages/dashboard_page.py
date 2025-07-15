@@ -7,7 +7,7 @@ class DashboardPage:
     def __init__(self, driver):
         self.driver = driver
         # Unique element present only on dashboard (adjust if needed)
-        self.account_button = (By.XPATH, "//*[@id='header']/div[2]/div/button")
+        self.account_button = (By.XPATH, "//*[@id='header']/div[2]/div/buttons")
 
     def is_loaded(self):
         try:
