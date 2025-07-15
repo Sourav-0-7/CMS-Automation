@@ -23,16 +23,16 @@ def test_dashboard():
     password = os.getenv('CMS_PASSWORD', 'password')
 
     try:
-        print("🔄 Testing Dashboard...")
+        print("Testing Dashboard...")
         dashboard = perform_login(driver, base_url, email, password)
 
         if dashboard.is_loaded():
-            print("✅ Dashboard Test: PASSED")
+            print(" Dashboard Test: PASSED")
         else:
             raise Exception("Dashboard did not load correctly.")
 
     except Exception as e:
-        print(f"❌ Dashboard Test FAILED - {str(e)}")
+        print(f"Dashboard Test FAILED - {str(e)}")
         driver.save_screenshot("dashboard_failure.png")
 
     finally:

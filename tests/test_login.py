@@ -19,7 +19,7 @@ def test_login():
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
 
-    # ✅ Maximize the window for visibility
+    # Maximize the window for visibility
     chrome_options.add_argument('--start-maximized')
 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
@@ -34,10 +34,10 @@ def test_login():
         logger.info("Running login test...")
         from app.cms_actions import perform_login
         perform_login(driver, base_url, email, password)
-        print("✅ Login Test: PASSED")
+        print("Login Test: PASSED")
     except Exception as e:
-        print(f"❌ Login Test FAILED - {str(e)}")
-        traceback.print_exc()  # ✅ Full traceback for debugging
+        print(f"Login Test FAILED - {str(e)}")
+        traceback.print_exc()  # Full traceback for debugging
         driver.save_screenshot("login_failure.png")
     finally:
         driver.quit()
