@@ -14,14 +14,14 @@ class ContentTemplate:
         self.template_name_input = (By.XPATH, "//input[@name='template_name'] | //input[contains(@id, 'r1j')]")
 
         # MUI Dropdown containers (role="combobox")
-        self.registrant_dropdown = (By.XPATH, "//div[@role='combobox' and contains(@class, 'MuiAutocomplete-root')]//input")
-        self.filing_type_dropdown = (By.XPATH, "//div[@role='combobox' and contains(@class, 'MuiAutocomplete-root')][2]//input")
-        self.style_template_dropdown = (By.XPATH, "//div[@role='combobox' and contains(@class, 'MuiAutocomplete-root')][3]//input")
+        self.registrant_dropdown = (By.XPATH, "/html/body/div[2]/div[3]/div[2]/div/div[2]/div[1]/label")
+        self.filing_type_dropdown = (By.XPATH, "/html/body/div[2]/div[3]/div[2]/div/div[2]/div[2]/label")
+        self.style_template_dropdown = (By.XPATH, "/html/body/div[2]/div[3]/div[2]/div/div[3]/div/label")
 
         # Options inside MUI Autocomplete Popper (role="listbox")
         self.option = lambda text: (By.XPATH, f"//ul[@role='listbox']//li//span[text()='{text}']")
 
-        self.create_button = (By.XPATH, "//button[normalize-space()='Create']")
+        self.create_button = (By.XPATH, "/html/body/div[2]/div[3]/div[3]/div/button[2]")
 
     def open_content_template_modal(self):
         print("➡ Clicking on Content Templates tab...")
@@ -31,7 +31,7 @@ class ContentTemplate:
         print("➡ Clicking on Create New button...")
         create_btn = self.wait.until(EC.element_to_be_clickable(self.create_new_button))
         self.driver.execute_script("arguments[0].click();", create_btn)
-
+    
     def fill_template_form(self, name):
         print("➡ Filling template name...")
         self.wait.until(EC.presence_of_element_located(self.template_name_input)).send_keys(name)
@@ -41,7 +41,6 @@ class ContentTemplate:
         self.driver.execute_script("arguments[0].scrollIntoView(true);", registrant)
         time.sleep(1)
         self.driver.execute_script("arguments[0].click();", registrant)
-        self.wait.until(EC.presence_of_element_located((By.XPATH, "//ul[@role='listbox']"))).click()  # Ensure overlay is open
         self.wait.until(EC.element_to_be_clickable(self.option("ABC Investments"))).click()
 
         print("➡ Selecting Filing Type...")
@@ -62,3 +61,4 @@ class ContentTemplate:
         print("➡ Clicking Create button...")
         create_button = self.wait.until(EC.element_to_be_clickable(self.create_button))
         self.driver.execute_script("arguments[0].click();", create_button)
+
