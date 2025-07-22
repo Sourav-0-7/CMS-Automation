@@ -31,9 +31,7 @@ class ContentTemplate:
         try:
             tab = self.wait.until(EC.element_to_be_clickable(self.content_template_tab))
             self.driver.execute_script("arguments[0].click();", tab)
-            print("✅ Clicked Content Templates tab.")
         except TimeoutException:
-            print("❗ Timeout waiting for Content Templates tab.")
             self.driver.save_screenshot("content_templates_tab_timeout.png")
             raise
 
@@ -41,9 +39,7 @@ class ContentTemplate:
             create_btn = self.wait.until(EC.element_to_be_clickable(self.create_new_button))
             self.driver.execute_script("arguments[0].click();", create_btn)
             self.wait.until(EC.visibility_of_element_located(self.template_name_input))
-            print("✅ Create New modal opened.")
         except TimeoutException:
-            print("❗ Timeout waiting for Create New button or modal.")
             self.driver.save_screenshot("create_new_button_timeout.png")
             raise
      
@@ -51,9 +47,7 @@ class ContentTemplate:
         try:
             template_name_input_elem = self.wait.until(EC.presence_of_element_located(self.template_name_input))
             template_name_input_elem.send_keys(name)
-            print(f"✅ Filled template name: {name}")
         except TimeoutException:
-            print("❗ Timeout waiting for Template Name input field.")
             self.driver.save_screenshot("template_name_input_timeout.png")
             raise
 
@@ -64,13 +58,10 @@ class ContentTemplate:
             # Wait for Style Template dropdown to become enabled/clickable
             self.wait.until(EC.element_to_be_clickable(self.style_template_dropdown_trigger))
             self._select_mui_dropdown(self.style_template_dropdown_trigger, "new", "Style Template")
-            print("✅ Style Template dropdown selected.")
         except TimeoutException:
-            print("❗ Timeout: Style Template dropdown did not become enabled/clickable.")
             self.driver.save_screenshot("style_template_disabled_timeout.png")
             raise
         except ElementClickInterceptedException:
-             print("❗ Element click intercepted when selecting Style Template.")
              self.driver.save_screenshot("style_template_intercepted.png")
              raise
 
@@ -81,28 +72,22 @@ class ContentTemplate:
             trigger_element = self.wait.until(EC.element_to_be_clickable(trigger_locator))
             self.driver.execute_script("arguments[0].scrollIntoView(true);", trigger_element)
             trigger_element.click() 
-            print(f"✅ Clicked {field_name} dropdown trigger.")
 
             self.wait.until(EC.presence_of_element_located(self.generic_mui_listbox_container))
             self.wait.until(EC.visibility_of_element_located(self.generic_mui_listbox_container))
-            # print(f"Generic listbox for {field_name} is visible.") # Keep if debugging listbox visibility is needed
 
             option_element = self.wait.until(EC.element_to_be_clickable(self.option_text_locator(option_text)))
             self.driver.execute_script("arguments[0].scrollIntoView(true);", option_element)
             option_element.click()
-            print(f"✅ Selected '{option_text}' for {field_name}.")
 
         except TimeoutException as e:
-            print(f"❗ Timeout during {field_name} selection. Error: {e}")
             self.driver.save_screenshot(f"{field_name.lower().replace(' ', '_')}_dropdown_timeout.png")
             
             # Debugging block: attempt to get listbox content on failure
             try:
                 actual_listbox_element = self.driver.find_element(*self.generic_mui_listbox_container)
-                print(f"Debug: Listbox found. Displayed: {actual_listbox_element.is_displayed()}. InnerHTML: {actual_listbox_element.get_attribute('innerHTML')}")
                 try:
                     actual_listbox_element.find_element(*self.option_text_locator(option_text))
-                    print(f"Debug: Option '{option_text}' found in listbox HTML.")
                 except NoSuchElementException:
                     print(f"Debug: Option '{option_text}' NOT found in listbox HTML with locator {self.option_text_locator(option_text)}.")
             except NoSuchElementException:
@@ -123,7 +108,6 @@ class ContentTemplate:
         try:
             create_button = self.wait.until(EC.element_to_be_clickable(self.create_button))
             self.driver.execute_script("arguments[0].click();", create_button)
-            print("✅ Create button clicked.")
         except TimeoutException:
             print("❗ Timeout waiting for Create button.")
             self.driver.save_screenshot("create_button_timeout.png")
